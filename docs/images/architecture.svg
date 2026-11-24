@@ -1,0 +1,111 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 640" width="100%" height="100%" style="background:#ffffff; font-family:-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;">
+  <defs>
+    <filter id="softShadow" x="-5%" y="-5%" width="110%" height="110%">
+      <feDropShadow dx="0" dy="2" stdDeviation="4" flood-color="#0f172a" flood-opacity="0.06"/>
+    </filter>
+  </defs>
+
+  <!-- Background -->
+  <rect width="1200" height="640" fill="#ffffff"/>
+
+  <!-- Top Title Bar -->
+  <rect x="40" y="24" width="1120" height="60" rx="8" fill="#f8fafc" stroke="#e2e8f0" stroke-width="1.5" filter="url(#softShadow)"/>
+  <text x="70" y="60" fill="#0f172a" font-size="20" font-weight="700" letter-spacing="0.3">AWS S3 Secure Enterprise Data Lake &amp; Lifecycle Architecture</text>
+  <rect x="910" y="40" width="110" height="26" rx="13" fill="#ecfdf5" stroke="#10b981" stroke-width="1"/>
+  <text x="925" y="58" fill="#047857" font-size="12" font-weight="600">PRODUCTION</text>
+  <rect x="1030" y="40" width="100" height="26" rx="13" fill="#eff6ff" stroke="#3b82f6" stroke-width="1"/>
+  <text x="1045" y="58" fill="#1d4ed8" font-size="12" font-weight="600">TERRAFORM</text>
+
+  <!-- COLUMN 1: Data Ingestion & Producers -->
+  <rect x="40" y="110" width="250" height="490" rx="8" fill="#ffffff" stroke="#e2e8f0" stroke-width="1.5" filter="url(#softShadow)"/>
+  <rect x="40" y="110" width="250" height="40" rx="8" fill="#f1f5f9"/>
+  <text x="60" y="136" fill="#0284c7" font-size="13" font-weight="700">1. INGESTION PIPELINES</text>
+
+  <rect x="60" y="170" width="210" height="70" rx="6" fill="#f8fafc" stroke="#cbd5e1" stroke-width="1"/>
+  <text x="75" y="198" fill="#0f172a" font-size="14" font-weight="600">Amazon Kinesis Firehose</text>
+  <text x="75" y="222" fill="#64748b" font-size="11">Streaming Event Microbatches</text>
+
+  <rect x="60" y="260" width="210" height="70" rx="6" fill="#f8fafc" stroke="#cbd5e1" stroke-width="1"/>
+  <text x="75" y="288" fill="#0f172a" font-size="14" font-weight="600">AWS Glue &amp; EMR Spark</text>
+  <text x="75" y="312" fill="#64748b" font-size="11">Batch ETL Transformations</text>
+
+  <rect x="60" y="350" width="210" height="70" rx="6" fill="#f8fafc" stroke="#cbd5e1" stroke-width="1"/>
+  <text x="75" y="378" fill="#0f172a" font-size="14" font-weight="600">App &amp; Database Exports</text>
+  <text x="75" y="402" fill="#64748b" font-size="11">DMS CDC &amp; Parquet Dumps</text>
+
+  <rect x="60" y="440" width="210" height="70" rx="6" fill="#f8fafc" stroke="#cbd5e1" stroke-width="1"/>
+  <text x="75" y="468" fill="#0f172a" font-size="14" font-weight="600">Multipart Upload Stream</text>
+  <text x="75" y="492" fill="#64748b" font-size="11">7-Day Auto-Abort Rule</text>
+
+  <!-- COLUMN 2: Security & Governance Boundaries -->
+  <rect x="330" y="110" width="250" height="490" rx="8" fill="#ffffff" stroke="#e2e8f0" stroke-width="1.5" filter="url(#softShadow)"/>
+  <rect x="330" y="110" width="250" height="40" rx="8" fill="#f1f5f9"/>
+  <text x="350" y="136" fill="#6366f1" font-size="13" font-weight="700">2. SECURITY &amp; GOVERNANCE</text>
+
+  <rect x="350" y="170" width="210" height="70" rx="6" fill="#f8fafc" stroke="#cbd5e1" stroke-width="1"/>
+  <text x="365" y="198" fill="#0f172a" font-size="14" font-weight="600">Block Public Access</text>
+  <text x="365" y="222" fill="#64748b" font-size="11">4-Tier Complete Public Block</text>
+
+  <rect x="350" y="260" width="210" height="70" rx="6" fill="#f8fafc" stroke="#cbd5e1" stroke-width="1"/>
+  <text x="365" y="288" fill="#0f172a" font-size="14" font-weight="600">Enforced TLS 1.2+ Only</text>
+  <text x="365" y="312" fill="#64748b" font-size="11">Deny aws:SecureTransport=false</text>
+
+  <rect x="350" y="350" width="210" height="70" rx="6" fill="#f8fafc" stroke="#cbd5e1" stroke-width="1"/>
+  <text x="365" y="378" fill="#0f172a" font-size="14" font-weight="600">BucketOwnerEnforced</text>
+  <text x="365" y="402" fill="#64748b" font-size="11">ACLs Disabled / IAM Authority</text>
+
+  <rect x="350" y="440" width="210" height="70" rx="6" fill="#f8fafc" stroke="#cbd5e1" stroke-width="1"/>
+  <text x="365" y="468" fill="#0f172a" font-size="14" font-weight="600">Object Versioning</text>
+  <text x="365" y="492" fill="#64748b" font-size="11">MFA Delete &amp; Ransomware Guard</text>
+
+  <!-- COLUMN 3: S3 Data Lake & Storage Engine -->
+  <rect x="620" y="110" width="250" height="490" rx="8" fill="#ffffff" stroke="#e2e8f0" stroke-width="1.5" filter="url(#softShadow)"/>
+  <rect x="620" y="110" width="250" height="40" rx="8" fill="#f1f5f9"/>
+  <text x="640" y="136" fill="#d97706" font-size="13" font-weight="700">3. S3 STORAGE CORE</text>
+
+  <rect x="640" y="170" width="210" height="70" rx="6" fill="#f8fafc" stroke="#cbd5e1" stroke-width="1"/>
+  <text x="655" y="198" fill="#0f172a" font-size="14" font-weight="600">SSE-KMS Encryption</text>
+  <text x="655" y="222" fill="#64748b" font-size="11">Customer-Managed KMS Key</text>
+
+  <rect x="640" y="260" width="210" height="70" rx="6" fill="#f8fafc" stroke="#cbd5e1" stroke-width="1"/>
+  <text x="655" y="288" fill="#0f172a" font-size="14" font-weight="600">S3 Bucket Key Enabled</text>
+  <text x="655" y="312" fill="#64748b" font-size="11">99% KMS Request Cost Reduction</text>
+
+  <rect x="640" y="350" width="210" height="70" rx="6" fill="#f8fafc" stroke="#cbd5e1" stroke-width="1"/>
+  <text x="655" y="378" fill="#0f172a" font-size="14" font-weight="600">Zone Partitioning</text>
+  <text x="655" y="402" fill="#64748b" font-size="11">raw/ | processed/ | curated/</text>
+
+  <rect x="640" y="440" width="210" height="70" rx="6" fill="#f8fafc" stroke="#cbd5e1" stroke-width="1"/>
+  <text x="655" y="468" fill="#0f172a" font-size="14" font-weight="600">CloudTrail S3 Data Events</text>
+  <text x="655" y="492" fill="#64748b" font-size="11">Full Audit Logging of Reads/Writes</text>
+
+  <!-- COLUMN 4: Lifecycle Tiering & Cost Optimization -->
+  <rect x="910" y="110" width="250" height="490" rx="8" fill="#ffffff" stroke="#e2e8f0" stroke-width="1.5" filter="url(#softShadow)"/>
+  <rect x="910" y="110" width="250" height="40" rx="8" fill="#f1f5f9"/>
+  <text x="930" y="136" fill="#059669" font-size="13" font-weight="700">4. LIFECYCLE &amp; FINOPS</text>
+
+  <rect x="930" y="170" width="210" height="70" rx="6" fill="#f8fafc" stroke="#cbd5e1" stroke-width="1"/>
+  <text x="945" y="198" fill="#0f172a" font-size="14" font-weight="600">Standard Tier (0 - 30d)</text>
+  <text x="945" y="222" fill="#64748b" font-size="11">High-Throughput Analytics</text>
+
+  <rect x="930" y="260" width="210" height="70" rx="6" fill="#f8fafc" stroke="#cbd5e1" stroke-width="1"/>
+  <text x="945" y="288" fill="#0f172a" font-size="14" font-weight="600">Standard-IA (30d - 90d)</text>
+  <text x="945" y="312" fill="#64748b" font-size="11">Infrequent Access (40% Savings)</text>
+
+  <rect x="930" y="350" width="210" height="70" rx="6" fill="#f8fafc" stroke="#cbd5e1" stroke-width="1"/>
+  <text x="945" y="378" fill="#0f172a" font-size="14" font-weight="600">Glacier Flexible (90d - 180d)</text>
+  <text x="945" y="402" fill="#64748b" font-size="11">Long-term Archival (70% Savings)</text>
+
+  <rect x="930" y="440" width="210" height="70" rx="6" fill="#f8fafc" stroke="#cbd5e1" stroke-width="1"/>
+  <text x="945" y="468" fill="#0f172a" font-size="14" font-weight="600">Deep Archive (180d+)</text>
+  <text x="945" y="492" fill="#64748b" font-size="11">Regulatory Vault (95% Savings)</text>
+
+  <!-- Connectors -->
+  <path d="M 290 205 L 330 205" stroke="#94a3b8" stroke-width="2"/>
+  <path d="M 580 205 L 620 205" stroke="#94a3b8" stroke-width="2"/>
+  <path d="M 870 205 L 910 205" stroke="#94a3b8" stroke-width="2"/>
+
+  <path d="M 290 385 L 330 385" stroke="#94a3b8" stroke-width="2"/>
+  <path d="M 580 385 L 620 385" stroke="#94a3b8" stroke-width="2"/>
+  <path d="M 870 385 L 910 385" stroke="#94a3b8" stroke-width="2"/>
+</svg>

@@ -1,11 +1,15 @@
-# :rocket: Terraform Aws S3 Secure Data Lake
+# :rocket: Terraform AWS S3 Secure Data Lake
+
+<p align="center">
+  <img src="docs/images/architecture-white.jpg" alt="AWS S3 Secure Data Lake Architecture Blueprint" width="100%" style="border-radius: 8px;" />
+</p>
 
 <div align="center">
 
 [![Status](https://img.shields.io/badge/status-production--ready-brightgreen?style=for-the-badge&logo=git)]()
 [![Domain](https://img.shields.io/badge/domain-Cloud--Architecture--and--IaC-blueviolet?style=for-the-badge)]()
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg?style=for-the-badge)](LICENSE)
-[![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg?style=for-the-badge&logo=github)](https://github.com/T9113/terraform-aws-s3-secure-data-lake/pulls)
+[![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg?style=for-the-badge&logo=github)](https://github.com/tayyabmasood911/terraform-aws-s3-secure-data-lake/pulls)
 [![Security Hardened](https://img.shields.io/badge/security-hardened-red?style=for-the-badge&logo=shield)]()
 
 </div>
@@ -14,45 +18,59 @@
 
 ## :memo: Executive Summary
 
-**Terraform Aws S3 Secure Data Lake** is an enterprise-grade production engineering implementation designed for mission-critical deployments. Built to meet stringent requirements for **99.99% availability**, zero-trust security boundaries, automated resilience, and seamless CI/CD delivery.
+**Terraform AWS S3 Secure Data Lake** is an enterprise-grade Infrastructure-as-Code (IaC) repository that provisions a zero-trust, compliance-ready Amazon S3 data lake. Designed for petabyte-scale big data architectures, analytical pipelines, and machine learning storage, this module enforces strict four-tier public access blocks, customer-managed KMS encryption, S3 Bucket Keys, and multi-tier FinOps lifecycle policies.
 
 Key operational outcomes:
-- **Resilience:** Multi-zone high availability with automated fault detection and recovery.
-- **Scalability:** Elastic horizontal scaling responsive to real-time workload demand.
-- **Security:** Strict adherence to least-privilege RBAC, encrypted communications, and zero committed secrets.
-- **Maintainability:** Modular, declarative configuration aligned with cloud-native industry standards.
+- **Zero-Trust Security:** Mandatory TLS 1.2+ transport security, complete public access blocking, and ACL elimination (`BucketOwnerEnforced`).
+- **FinOps Optimization:** Automated hierarchical tiering (Standard -> Standard-IA -> Glacier Flexible -> Deep Archive) reducing storage costs by up to 95%.
+- **KMS Cost Reduction:** S3 Bucket Key reduces KMS request traffic and per-call charges by 99% during high-throughput ETL jobs.
+- **Ransomware & Tamper Defense:** Native object versioning with lifecycle cleanup protects critical data assets against accidental deletion and unauthorized overwrites.
 
 ---
 
 ## :building_construction: System Architecture
 
 ```text
-+-------------------------------------------------------------------------------+
-|                       Terraform Aws S3 Secure Data Lake Architecture Blueprint                    |
-|                                                                               |
-|   [Client Ingress] ===> [API Gateway / Traffic Router (TLS 1.3 / mTLS)]       |
-|                                     |                                         |
-|                                     v                                         |
-|                         [Core Workload Cluster]                               |
-|                         (Multi-Replica / Multi-AZ)                            |
-|                                     |                                         |
-|                 +-------------------+-------------------+                     |
-|                 |                                       |                     |
-|                 v                                       v                     |
-|     [Persistence & Storage Layer]           [Observability & Telemetry Engine]|
-|      (Encrypted at Rest / KMS)              (Prometheus / OTLP / OpenSearch)  |
-+-------------------------------------------------------------------------------+
++---------------------------------------------------------------------------------------------------+
+|                         AWS S3 Secure Data Lake Architecture Blueprint                            |
+|                                                                                                   |
+|   +--------------------------+         +------------------------------------------------------+   |
+|   | Ingestion Sources        | ======> | Security & Access Governance Barrier                 |   |
+|   | - Kinesis Data Firehose  |  TLS1.2 | - S3 Public Access Block (All 4 flags enforced)      |   |
+|   | - AWS Glue & EMR Spark   |         | - BucketOwnerEnforced (ACLs Disabled)                |   |
+|   | - App CDC & Event Streams|         | - Bucket Policy: Deny non-TLS & unencrypted uploads   |   |
+|   +--------------------------+         +------------------------------------------------------+   |
+|                                                                   |                               |
+|                                                                   v                               |
+|                                        +------------------------------------------------------+   |
+|                                        | Amazon S3 Storage Core                               |   |
+|                                        | - Customer Managed KMS Key (SSE-KMS)                 |   |
+|                                        | - S3 Bucket Key Enabled (99% KMS Request Savings)    |   |
+|                                        | - Partitions: raw/ | processed/ | curated/           |   |
+|                                        | - Object Versioning & CloudTrail Audit Tracking      |   |
+|                                        +------------------------------------------------------+   |
+|                                                                   |                               |
+|                                                                   v                               |
+|                                        +------------------------------------------------------+   |
+|                                        | Multi-Tier Lifecycle & FinOps Optimization           |   |
+|                                        | - Day 0 to 30:   S3 Standard (High Throughput)       |   |
+|                                        | - Day 30 to 90:  S3 Standard-IA (Infrequent Access)  |   |
+|                                        | - Day 90 to 180: S3 Glacier Flexible (70% Savings)   |   |
+|                                        | - Day 180+:      S3 Glacier Deep Archive (Vault)     |   |
+|                                        | - 7-Day Auto-Abort on Incomplete Multipart Uploads   |   |
+|                                        +------------------------------------------------------+   |
++---------------------------------------------------------------------------------------------------+
 ```
 
 ---
 
 ## :sparkles: Key Enterprise Capabilities
 
-- :zap: **High Availability & Fault Tolerance:** Eliminates single points of failure via multi-node redundancy and health check probes.
-- :shield: **Zero-Trust Security Posture:** Enforces non-root runtime environments, ephemeral credentials, and automated vulnerability scanning.
-- :chart_with_upwards_trend: **Elastic Autoscaling:** Dynamic resource provisioning based on custom throughput, memory pressure, and queue depth.
-- :mag: **Full-Stack Observability:** Standardized structured telemetry, metrics instrumentation, and distributed request tracing.
-- :package: **GitOps & CI/CD Automation:** Infrastructure and configuration managed declaratively with automated testing and continuous deployment.
+- :zap: **S3 Bucket Key Cost Optimization:** Decouples object encryption requests from AWS KMS pricing, achieving up to 99% cost reduction during heavy Spark and Athena read/write cycles.
+- :shield: **Zero-Trust Access Control:** Disables legacy S3 Access Control Lists (ACLs) entirely, centralizing identity and permission governance through AWS IAM and bucket policies.
+- :arrows_counterclockwise: **Intelligent Multi-Stage Lifecycle:** Seamlessly migrates older telemetry and historical transactions across storage tiers without data rehydration overhead.
+- :recycle: **Orphaned Multipart Cleanup:** Automatically identifies and purges stalled multipart chunk uploads older than 7 days, preventing silent billing accumulation.
+- :lock: **TLS 1.2+ Cipher Enforcement:** Strictly repudiates any inbound request lacking modern TLS cryptographic protection (`aws:SecureTransport = false` or `s3:TlsVersion < 1.2`).
 
 ---
 
@@ -60,12 +78,23 @@ Key operational outcomes:
 
 ```text
 .
-|-- config/              # Declarative configuration and environment definitions
-|-- src/                 # Production source code and manifests
-|-- scripts/             # Operational automation, setup, and maintenance scripts
-|-- tests/               # Comprehensive validation and unit test suites
+|-- .github/             # Automated CI workflows for Terraform linting and validation
+|-- config/              # Example environment variable templates
+|-- docs/
+|   `-- images/          # White-theme architectural blueprints and vector diagrams
+|       |-- architecture.svg
+|       `-- architecture-white.jpg
+|-- scripts/             # Operational validation and health check tooling
+|-- tests/               # Python-based syntax and policy validation tests
+|-- .gitattributes       # Linguist configuration ensuring accurate language detection
 |-- LICENSE              # MIT Open Source License
-`-- README.md            # Enterprise architectural documentation
+|-- lifecycle.tf         # Multi-tier lifecycle transition and retention rules
+|-- main.tf              # S3 bucket, encryption, public access block, and security policies
+|-- Makefile             # Operational targets for formatting, linting, and testing
+|-- outputs.tf           # Exported bucket names, ARNs, and regional endpoints
+|-- README.md            # Enterprise architectural documentation
+|-- SECURITY.md          # Vulnerability disclosure and security policy
+`-- variables.tf         # Parameterized configuration inputs and thresholds
 ```
 
 ---
@@ -73,23 +102,32 @@ Key operational outcomes:
 ## :zap: Quick Start & Deployment
 
 ### Prerequisites
-- Git `>= 2.40`
-- Docker Engine `>= 24.0` / Cloud CLI (AWS / GCP / Azure / Kubernetes)
+- Terraform `>= 1.5.0`
+- AWS CLI configured with S3 and KMS permissions
+- Optional: Existing AWS KMS Customer Managed Key (CMK)
 
 ### Deployment Steps
 ```bash
 # 1. Clone the repository
-git clone https://github.com/T9113/terraform-aws-s3-secure-data-lake.git
+git clone https://github.com/tayyabmasood911/terraform-aws-s3-secure-data-lake.git
 cd terraform-aws-s3-secure-data-lake
 
-# 2. Inspect and configure environment parameters
-cp config/example.env config/.env
+# 2. Inspect and configure input variables
+cp config/production.env.example .env
 
-# 3. Validate configurations and syntax
-# Run linters, dry-run validations, or unit test suites
+# 3. Initialize Terraform and validate configuration
+terraform init
+terraform fmt -check
+terraform validate
 
-# 4. Deploy workloads / infrastructure
-# Execute deployment manifests or container runtime
+# 4. Generate deployment execution plan
+terraform plan \
+  -var="bucket_prefix=enterprise-analytics-lake-" \
+  -var="environment=production" \
+  -out=tfplan
+
+# 5. Apply infrastructure changes
+terraform apply tfplan
 ```
 
 ---
@@ -98,19 +136,24 @@ cp config/example.env config/.env
 
 | Parameter | Type | Default | Description |
 | :--- | :--- | :--- | :--- |
-| `ENVIRONMENT` | string | `production` | Deployment environment target (`staging`, `production`) |
-| `LOG_LEVEL` | string | `info` | Structured logging verbosity (`debug`, `info`, `warn`, `error`) |
-| `METRICS_ENABLED` | boolean | `true` | Enables real-time Prometheus / OpenTelemetry telemetry export |
-| `TLS_MIN_VERSION` | string | `TLSv1.3` | Minimum allowable TLS protocol version for network traffic |
+| `bucket_prefix` | string | `prod-data-lake-` | Unique naming prefix assigned to the created S3 bucket |
+| `environment` | string | `production` | Deployment environment tier (`production`, `staging`) |
+| `enable_versioning` | bool | `true` | Enables object versioning for anti-ransomware protection |
+| `kms_key_arn` | string | `null` | Customer Managed KMS Key ARN (null defaults to AWS-managed key) |
+| `transition_days_ia` | number | `30` | Days elapsed before transitioning objects to S3 Standard-IA |
+| `transition_days_glacier` | number | `90` | Days elapsed before transitioning objects to Glacier Flexible |
+| `transition_days_deep_archive` | number | `180` | Days elapsed before transitioning objects to Glacier Deep Archive |
+| `expiration_days_noncurrent` | number | `365` | Days before permanently deleting superseded object versions |
+| `force_destroy` | bool | `false` | Prevents destruction if bucket contains active objects |
 
 ---
 
 ## :lock: Security, Compliance & Governance
 
-1. **Least-Privilege Execution:** Services run under restricted service accounts with zero root permissions.
-2. **Encrypted Data In-Flight & At-Rest:** AES-256 / KMS envelope encryption for persistent state and TLS 1.3 for network transport.
-3. **Automated Supply Chain Security:** All dependencies and container images verified against CVE databases using Trivy and Semgrep.
-4. **Zero-Secret Guarantee:** No hardcoded tokens, passwords, or private keys exist in this codebase.
+1. **Deny Unencrypted PutObject:** Enforces mandatory `s3:x-amz-server-side-encryption: aws:kms` on all object uploads.
+2. **Encrypted Transport Only:** Non-TLS (plain HTTP) and legacy TLS versions (< 1.2) are blocked at the perimeter.
+3. **Public Access Lockdown:** All four S3 Block Public Access flags are permanently set to `true`.
+4. **Ownership Centralization:** `BucketOwnerEnforced` guarantees that the AWS bucket owner owns all deposited objects.
 
 ---
 
@@ -118,7 +161,7 @@ cp config/example.env config/.env
 
 **Tayyab Masood**  
 Cloud Solutions Architect & Senior DevOps Engineer  
-- :globe_with_meridians: **GitHub:** [@T9113](https://github.com/T9113)  
+- :globe_with_meridians: **GitHub:** [@tayyabmasood911](https://github.com/tayyabmasood911)  
 - :scroll: **Certification:** AWS Certified Solutions Architect - Associate  
 
 ---
